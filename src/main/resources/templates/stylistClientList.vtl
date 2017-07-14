@@ -2,7 +2,7 @@
 <h1>$stylist.getStylistName()</h1>
 <br>
 #if ($clients.size() > 0)
-  <h4>Existing Stylist Clients:</h4>
+  <h4>Existing Clients:</h4>
   <ul>
     #foreach ($client in $clients)
       <li>$client.getClientName()</li>
@@ -13,7 +13,7 @@
 #end
 
 <br>
-<form action="/clientSuccessPage" method="post">
+<form action="/client-added-success" method="post">
   <input id="stylistId" name="stylistId" type="hidden" value="$stylist.getStylistId()">
 
   <div class="form-group">

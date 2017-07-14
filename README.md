@@ -10,7 +10,6 @@ This application is a demonstration of CRUD - creating, reading, updating, and d
 
 |Behavior - Plain English|Input|Output|
 |---|---|---|
-
 |On the homepage, a user adds a stylist using the "Add A Stylist" field and button and they are taken to a success page that tells them the stylist was added and gives them the option to go back to the homepage|User enters "Stylist 1" in the "Name" field and adds "Haircuts" in the "Services" field |The user is taken to a success page letting them know the stylist was added|
 |On the success page for a stylist addition, the user clicks on the "Back To The Stylist List" link and is taken back to the homepage where the stylist they just added is listed|User clicks on "Back To The Stylist List" after adding a stylist called "Stylist 1"|The user is taken to the homepage and sees Stylist 1 listed as a stylist|
 |On the homepage, a user clicks on the name of a stylist and is taken to a page where they can see a list of the clients assigned to that stylist, if any have been added already, and use a field to add additional clients to that stylist|User clicks on "Stylist 1"|The user is taken to the Stylist 1 page and a they see a blank list of clients and a field to add clients to that stylist|

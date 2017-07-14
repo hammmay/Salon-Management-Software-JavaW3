@@ -18,7 +18,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/stylistSuccessPage", (request, response) -> {
+    post("/stylist-added-success", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       ArrayList<Stylist> stylists = request.session().attribute("stylists");
       if (stylists == null) {
@@ -41,7 +41,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/clientSuccessPage", (request, response) -> {
+    post("/client-added-success", (request, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
       Stylist stylist = Stylist.find(Integer.parseInt(request.queryParams("stylistId")));
       String clientDescription = request.queryParams("clientDescription");
