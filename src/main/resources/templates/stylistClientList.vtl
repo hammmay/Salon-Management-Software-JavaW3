@@ -1,0 +1,26 @@
+<!--stylistclientist.vtl-->
+<h1>$stylist.getStylistName()</h1>
+<br>
+#if ($clients.size() > 0)
+  <h4>Existing Stylist Clients:</h4>
+  <ul>
+    #foreach ($client in $clients)
+      <li>$client.getClientName()</li>
+    #end
+  </ul>
+#else
+  <p>This stylist has no clients! They must give terrible cuts... or was just hired.</p>
+#end
+
+<br>
+<form action="/clientSuccessPage" method="post">
+  <input id="stylistId" name="stylistId" type="hidden" value="$stylist.getStylistId()">
+
+  <div class="form-group">
+    <label for="clientDescription">New Client Name</label>
+    <input id="clientDescription" name="clientDescription" type="text" class="form-control">
+  </div>
+
+  <button type="submit" class="btn btn-success">Add This Client</button>
+</form>
+<!--stylistclientist.vtl-->

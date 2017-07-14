@@ -1,0 +1,22 @@
+<!--index.vtl-->
+<h1>Bushwhacked Salon</h1>
+<br>
+#if ($stylists)
+  <h4>Click on a stylist to view their clients:</h4>
+  <ul>
+    #foreach ($stylist in $stylists)
+      <li><a href="/$stylist.getStylistId()">$stylist.getStylistName()</a></li>
+    #end
+  </ul>
+#else
+  <p>You Have No Stylists Yet. Add some using the form below:</p>
+#end
+
+<br>
+<form action="/stylistSuccessPage" method="post">
+  <label for="stylistDescription">Stylist Name</label>
+  <input id="stylistDescription" name="stylistDescription" type="text">
+
+  <button type="submit" class="btn btn-default">Add This Stylist</button>
+</form>
+<!--index.vtl-->
