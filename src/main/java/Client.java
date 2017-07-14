@@ -2,34 +2,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Client {
-  private String mClientName;
-  private static List<Client> instancesOfClients = new ArrayList<Client>();
-  private int mClientId;
+  private String clientName;
+  private int clientId;
+
 //method to instantiate client object
   public Client(String clientName) {
-    mClientName = clientName;
-    instancesOfClients.add(this);
-    mClientId = instancesOfClients.size();
+    this.clientName = clientName;
   }
 //method to get name of client object
   public String getClientName() {
-    return mClientName;
+    return clientName;
   }
-//method to get all names of all client objects added to the client array
+//method to get all names of all client objects added to the client table
   public static List<Client> all() {
-    return instancesOfClients;
-  }
-//method to clear client array
-  public static void clear() {
-    instancesOfClients.clear();
+    String sql = "SELECT id, client_name FROM client";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Client.class);
+    }
   }
 //method to get a client's unique ID
   public int getClientId() {
-    return mClientId;
+    return clientId;
   }
 //method to find a client based on ID
   public static Client find(int clientId) {
-    return instancesOfClients.get(clientId - 1);
+
   }
+
+  @Override
+  public boolean equals(Object otherClient) {
+    if (!(otherClient instanceof Client)) {
+      return false;
+    } else {
+      Client newClient = (Client) otherClient;
+      return this.getClientName().equals(newClient.getClientName()) &&
+        this.getClientId() == newClient.getClientId();
+    }
+  }
+
+  public void save() {
+      try(Connection con = DB.sql2o.open()) {
+        String sql = "INSERT INTO clients(clientName) VALUES (:clientName)";
+        this.clientID = (int) con.createQuery(sql, true)
+          .addParameter("clientName", this.clientName)
+          .executeUpdate();
+          .getKey();
+      }
+    }
 
 }
