@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import org.sql2o.*;
 
 public class Client {
   private String clientName;
@@ -15,18 +16,10 @@ public class Client {
   }
 //method to get all names of all client objects added to the client table
   public static List<Client> all() {
-    String sql = "SELECT id, client_name FROM client";
+    String sql = "SELECT Id, name FROM clients";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Client.class);
     }
-  }
-//method to get a client's unique ID
-  public int getClientId() {
-    return clientId;
-  }
-//method to find a client based on ID
-  public static Client find(int clientId) {
-
   }
 
   @Override
@@ -42,12 +35,27 @@ public class Client {
 
   public void save() {
       try(Connection con = DB.sql2o.open()) {
-        String sql = "INSERT INTO clients(clientName) VALUES (:clientName)";
-        this.clientID = (int) con.createQuery(sql, true)
+        String sql = "INSERT INTO clients(name) VALUES (:clientName)";
+        this.clientId = (int) con.createQuery(sql, true)
           .addParameter("clientName", this.clientName)
-          .executeUpdate();
+          .executeUpdate()
           .getKey();
       }
     }
+
+  //method to get a client's unique ID
+  public int getClientId() {
+    return clientId;
+  }
+  //method to find a client based on ID
+  public static Client find(int clientId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM clients where id=:clientId";
+      Client client = con.createQuery(sql)
+        .addParameter("clientId", clientId)
+        .executeAndFetchFirst(Client.class);
+      return client;
+    }
+  }
 
 }
