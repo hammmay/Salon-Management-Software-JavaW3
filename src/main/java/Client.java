@@ -5,10 +5,12 @@ import org.sql2o.*;
 public class Client {
   private String name;
   private int id;
+  private int stylistId;
 
 //method to instantiate client object
-  public Client(String name) {
+  public Client(String name, int stylistId) {
     this.name = name;
+    this.stylistId = stylistId;
   }
 //method to get name of client object
   public String getName() {
@@ -16,7 +18,7 @@ public class Client {
   }
 //method to get all names of all client objects added to the client table
   public static List<Client> all() {
-    String sql = "SELECT id, name FROM clients";
+    String sql = "SELECT id, name, stylistId FROM clients";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Client.class);
     }
@@ -29,15 +31,17 @@ public class Client {
     } else {
       Client newClient = (Client) otherClient;
       return this.getName().equals(newClient.getName()) &&
-        this.getId() == newClient.getId();
+        this.getId() == newClient.getId() &&
+        this.getStylistId() == newClient.getStylistId();
     }
   }
 
   public void save() {
       try(Connection con = DB.sql2o.open()) {
-        String sql = "INSERT INTO clients(name) VALUES (:name)";
+        String sql = "INSERT INTO clients(name, stylistId) VALUES (:name, :stylistId);";
         this.id = (int) con.createQuery(sql, true)
           .addParameter("name", this.name)
+          .addParameter("stylistId", this.stylistId)
           .executeUpdate()
           .getKey();
       }
@@ -56,6 +60,10 @@ public class Client {
         .executeAndFetchFirst(Client.class);
       return client;
     }
+  }
+
+  public int getStylistId() {
+    return stylistId;
   }
 
 }

@@ -34,46 +34,70 @@ public class StylistTest {
   @Test
   public void all_returnsAllInstancesOfStylists_true() {
     Stylist firstStylist = new Stylist("Stylist1");
+    firstStylist.save();
     Stylist secondStylist = new Stylist("Stylist2");
-    assertEquals(true, Stylist.all().contains(firstStylist));
-    assertEquals(true, Stylist.all().contains(secondStylist));
+    secondStylist.save();
+    assertEquals(true, Stylist.all().get(0).equals(firstStylist));
+    assertEquals(true, Stylist.all().get(1).equals(secondStylist));
   }
 //to clear the stylist array list
   @Test
   public void clear_emptiesAllStylistsFromArrayList_0() {
     Stylist testStylist = new Stylist("Stylist1");
-    Stylist.clear();
     assertEquals(0, Stylist.all().size());
   }
 //to add an ID to the stylist
   @Test
-  public void getStylistId_stylistInstantiateWithAnId_1() {
-    Stylist.clear();
+  public void getId_stylistInstantiateWithAnId_1() {
     Stylist testStylist = new Stylist("Stylist1");
-    assertEquals(1, testStylist.getStylistId());
+    testStylist.save();
+    assertTrue(testStylist.getId() > 0);
   }
 //to find a stylist based an ID
   @Test
   public void find_returnsStylistWithSameId_secondStylist() {
-    Stylist.clear();
     Stylist firstStylist = new Stylist("Stylist1");
+    firstStylist.save();
     Stylist secondStylist = new Stylist("Stylist2");
-    assertEquals(Stylist.find(secondStylist.getStylistId()), secondStylist);
+    secondStylist.save();
+    assertEquals(Stylist.find(secondStylist.getId()), secondStylist);
   }
 //to make sure the stylist instantiates with an empty clients list
   @Test
   public void getStylists_initiallyReturnsEmptyList_ArrayList() {
-    Stylist.clear();
     Stylist testStylist = new Stylist("Stylist1");
     assertEquals(0, testStylist.getClients().size());
   }
-//to add a client to a stylist
+
   @Test
-  public void addClient_addsClientToList_true() {
-    Stylist testStylist = new Stylist("Stylist1");
-    Client testClient = new Client("Client1");
-    testStylist.addClient(testClient);
-    assertTrue(testStylist.getClients().contains(testClient));
+  public void equals_returnsTrueIfNamesAretheSame() {
+    Stylist firstStylist = new Stylist("Stylist1");
+    Stylist secondStylist = new Stylist("Stylist1");
+    assertTrue(firstStylist.equals(secondStylist));
   }
 
+  @Test
+  public void save_savesIntoDatabase_true() {
+    Stylist myStylist = new Stylist("Stylist1");
+    myStylist.save();
+    assertTrue(Stylist.all().get(0).equals(myStylist));
+  }
+
+  @Test
+  public void save_assignsIdToObject() {
+    Stylist myStylist = new Stylist("Stylist1");
+    myStylist.save();
+    Stylist savedStylist = Stylist.all().get(0);
+    assertEquals(myStylist.getId(), savedStylist.getId());
+  }
+
+  @Test
+  public void save_savesStylistIdIntoDB_true() {
+    Stylist myStylist = new Stylist("Stylist1");
+    myStylist.save();
+    Client myClient = new Client("Client1", myStylist.getId());
+    myClient.save();
+    Client savedClient = Client.find(myClient.getId());
+    assertEquals(savedClient.getStylistId(), myStylist.getId());
+  }
 }

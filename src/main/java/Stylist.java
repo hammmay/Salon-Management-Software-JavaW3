@@ -1,47 +1,70 @@
-import java.util.ArrayList;
 import java.util.List;
+import org.sql2o.*;
 
 public class Stylist {
-  private String mNameOfStylist;
-  private static List<Stylist> instancesOfStylist = new ArrayList<Stylist>();
-  private int mStylistId;
-  private List<Client> mClients;
+  private String name;
+  private int id;
 
-  public Stylist(String nameOfStylist) {
-    mNameOfStylist = nameOfStylist;
-    instancesOfStylist.add(this);
-    mStylistId = instancesOfStylist.size();
-    mClients = new ArrayList<Client>();
+  public Stylist(String name) {
+    this.name = name;
   }
 
   public String getStylistName() {
-    return mNameOfStylist;
+    return name;
   }
 
   public static List<Stylist> all() {
-    return instancesOfStylist;
+    String sql = "SELECT id, name FROM stylists";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeAndFetch(Stylist.class);
+    }
   }
-//method to clear stylist array
-  public static void clear() {
-    instancesOfStylist.clear();
+
+  @Override
+  public boolean equals(Object otherStylist) {
+    if (!(otherStylist instanceof Stylist)) {
+      return false;
+    } else {
+      Stylist newStylist = (Stylist) otherStylist;
+      return this.getStylistName().equals(newStylist.getStylistName()) &&
+        this.getId() == newStylist.getId();
+    }
   }
-//method to get a stylist's unique ID
-  public int getStylistId() {
-    return mStylistId;
+
+  public int getId() {
+    return id;
   }
-//method to find a stylist based on ID
-  public static Stylist find(int stylistId) {
-    return instancesOfStylist.get(stylistId - 1);
-  }
+
 //method to check a stylist instantiates and returns a clients list
   public List<Client> getClients() {
-    return mClients;
-  }
-//method to place clients into stylists
-  public void addClient(Client client) {
-    mClients.add(client);
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM clients WHERE stylistId=:id";
+      return con.createQuery(sql)
+        .addParameter("id", this.id)
+        .executeAndFetch(Client.class);
+    }
   }
 
 
+//method to find a stylist based on ID
+  public static Stylist find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM stylists WHERE id=:id;";
+      Stylist stylist = con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Stylist.class);
+      return stylist;
+    }
+  }
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO stylists (name) VALUES (:name);";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", this.name)
+        .executeUpdate()
+        .getKey();
+    }
+  }
 
 }
