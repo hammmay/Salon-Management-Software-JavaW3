@@ -19,11 +19,12 @@ This application is a demonstration of CRUD - creating, reading, updating, and d
 |On the homepage a user clicks on the "Delete This Stylist" button below the stylist's name and are taken to a success page that tells them the stylist was deleted and gives them the option to go back to the homepage|User clicks on a "Delete This Stylist" button below the "Stylist 1" name|The user is taken to a success page letting them know the stylist was deleted|
 
 ## Setup
-
-This application uses a database, so begin by creating this database using the following commands:
-
-
-
+|This application uses a database, so begin by creating this database using the following commands in PSQL|
+|---|
+|CREATE DATABASE hair_salon;|
+|\c hair_salon;|
+|CREATE TABLE stylists (id serial PRIMARY KEY, name varchar);|
+|CREATE TABLE clients (id serial PRIMARY KEY, name varchar, stylistId int);|
 
 Once the table is set up, clone this repository. Run it through the terminal with the command $ gradle run. Once running, follow the listening path provided through the terminal and view it through your browser in localhost:
 (Note: you must have the right programs installed on your computer already to run the program. Please refer to the Technologies Used section below for the program list)
