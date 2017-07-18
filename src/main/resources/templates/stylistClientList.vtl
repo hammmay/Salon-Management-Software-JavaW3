@@ -1,11 +1,11 @@
 <!--stylistclientist.vtl-->
-<h1>$stylist.getStylistName()</h1>
+<h1>$stylist.getName()</h1>
 <br>
 #if ($clients.size() > 0)
   <h4>Existing Clients:</h4>
   <ul>
     #foreach ($client in $clients)
-      <li>$client.getClientName()</li>
+      <li>$client.getName()</li>
     #end
   </ul>
 #else
@@ -14,11 +14,14 @@
 
 <br>
 <form action="/client-added-success" method="post">
-  <input id="stylistId" name="stylistId" type="hidden" value="$stylist.getStylistId()">
+  <input id="stylistId" name="stylistId" type="hidden" value="$stylist.getId()">
+
+<!-- stylistId
+clientDescription -->
 
   <div class="form-group">
-    <label for="clientDescription">New Client Name</label>
-    <input id="clientDescription" name="clientDescription" type="text" class="form-control">
+    <label for="name">New Client Name</label>
+    <input id="name" name="name" type="text" class="form-control">
 
 <!--    <label for="clientDescription">Enter Client Email</label>
     <input id="clientDescription" name="clientDescription" type="text" class="form-control">

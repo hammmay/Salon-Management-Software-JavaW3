@@ -91,18 +91,6 @@ public class ClientTest {
     assertEquals(myClient.getId(), savedClient.getId());
   }
 
-  // @Test
-  // public void getClients_retrievesALlClientsFromDatabase_clientsList() {
-  //   Stylist myStylist = new Stylist("Stylist1");
-  //   myStylist.save();
-  //   Client firstClient = new Client("Client1", myStylist.getId());
-  //   firstClient.save();
-  //   Client secondClient = new Client("Client2", myStylist.getId());
-  //   secondClient.save();
-  //   Client[] clients = new Client[] { firstClient, secondClient };
-  //   assertTrue(myStylist.getClients().containsAll(Arrays.asList(clients)));
-  // }
-
   @Test
     public void save_savesStylistIdIntoDB_true() {
       Stylist myStylist = new Stylist("Stylist1");

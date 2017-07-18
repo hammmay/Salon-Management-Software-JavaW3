@@ -9,7 +9,7 @@ public class Stylist {
     this.name = name;
   }
 
-  public String getStylistName() {
+  public String getName() {
     return name;
   }
 
@@ -26,7 +26,7 @@ public class Stylist {
       return false;
     } else {
       Stylist newStylist = (Stylist) otherStylist;
-      return this.getStylistName().equals(newStylist.getStylistName()) &&
+      return this.getName().equals(newStylist.getName()) &&
         this.getId() == newStylist.getId();
     }
   }
@@ -44,7 +44,6 @@ public class Stylist {
         .executeAndFetch(Client.class);
     }
   }
-
 
 //method to find a stylist based on ID
   public static Stylist find(int id) {

@@ -1,11 +1,11 @@
 <!--index.vtl-->
 <h1>Bushwhacked Salon</h1>
 <br>
-#if ($stylists)
+#if ($stylists.size() > 0)
   <h4>Click on a stylist to view their clients:</h4>
   <ul>
     #foreach ($stylist in $stylists)
-      <li><a href="/$stylist.getStylistId()">$stylist.getStylistName()</a></li>
+      <li><a href="/$stylist.getId()">$stylist.getName()</a></li>
     #end
   </ul>
 #else
@@ -14,8 +14,8 @@
 
 <br>
 <form action="/stylist-added-success" method="post">
-  <label for="stylistDescription">Enter Stylist's Name</label>
-  <input id="stylistDescription" name="stylistDescription" type="text">
+  <label for="stylistName">Enter Stylist's Name</label>
+  <input id="stylistName" name="stylistName" type="text">
 <!--
   <label for="stylistDescription">Enter Stylist's Services</label>
   <input id="stylistDescription" name="stylistDescription" type="text">
